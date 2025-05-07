@@ -1,26 +1,27 @@
 package com.mark.taco_cloud.domain.dto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Data
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor(access=AccessLevel.PRIVATE, force=true)
 public class Ingredient {
 
     @Id
     private final String id;
     private final String name;
+    @Enumerated(EnumType.STRING)
     private final Type type;
 
     public enum Type {
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
     }
-
 }

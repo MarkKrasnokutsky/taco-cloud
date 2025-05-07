@@ -33,12 +33,12 @@ public class DesignTacoController {
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        Iterable<Ingredient> ingredients = ingredientRepository.findAll();
-        Type[] types = Ingredient.Type.values();
-        for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(),
-                    filterByType((List<Ingredient>) ingredients, type));
-        }
+        List<Ingredient> ingredients = ingredientRepository.findAll();
+        Arrays.stream(Ingredient.Type.values())
+                .forEach(type -> model.addAttribute(
+                        type.toString().toLowerCase(),
+                        filterByType(ingredients, type)
+                ));
     }
 
     @ModelAttribute(name = "tacoOrder")
