@@ -1,16 +1,9 @@
 package com.mark.taco_cloud.repository;
 
 import com.mark.taco_cloud.domain.dto.Ingredient;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
 
-public interface IngredientRepository extends CrudRepository<Ingredient, String> {
-
-    Iterable<Ingredient> findAll();
-
-    Optional<Ingredient> findById(String id);
-
-    Ingredient save(Ingredient ingredient);
+public interface IngredientRepository extends JpaRepository<Ingredient, String> {
 
 }
