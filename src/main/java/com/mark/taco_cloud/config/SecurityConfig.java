@@ -43,13 +43,26 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/design", "/orders").access(
                                 new WebExpressionAuthorizationManager(
-                                        "hasRole('USER') && " +
-                                                "T(java.util.Calendar).getInstance().get(" +
-                                                "T(java.util.Calendar).DAY_OF_WEEK) == " +
-                                                "T(java.util.Calendar).TUESDAY"
+                                        "hasRole('USER')"
                                 )
                         )
                         .requestMatchers("/", "/**").permitAll()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/design")
+                        .permitAll()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")  // Кастомная страница входа (если нужна)
+                        .defaultSuccessUrl("/design")
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")  // URL для выхода (POST-запрос)
+                        .logoutSuccessUrl("/login") // Куда перенаправить после выхода
+                        .invalidateHttpSession(true) // Очистить сессию
+                        .deleteCookies("JSESSIONID") // Удалить куки
+                        .permitAll()
                 )
                 .build();
     }
