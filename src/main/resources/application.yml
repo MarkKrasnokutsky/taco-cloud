@@ -8,6 +8,16 @@ spring:
     username: postgres
     password: admin
     driver-class-name: org.postgresql.Driver
+  rabbitmq:
+    host: localhost
+    port: 15672
+    username: guest
+    password: guest
+    template:
+      receive-timeout: 30000
+  kafka:
+    bootstrap-servers:
+      localhost:9093
   security:
     oauth2:
       client:
