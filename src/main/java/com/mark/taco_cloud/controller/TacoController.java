@@ -4,10 +4,9 @@ import com.mark.taco_cloud.domain.dto.Taco;
 import com.mark.taco_cloud.repository.TacoRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(path="/api/tacos",
@@ -16,14 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class TacoController {
 
     private TacoRepository tacoRepo;
+
     public TacoController(TacoRepository tacoRepo) {
         this.tacoRepo = tacoRepo;
     }
+
     @GetMapping(params="recent")
-    public Iterable<Taco> recentTacos() {
-        PageRequest page = PageRequest.of(
-                0, 12, Sort.by("createdAt").descending());
-        return tacoRepo.findAll(page).getContent();
+    public Flux<Taco> recentTacos() {
+        return tacoRepo.findAll().take(12);
+    }
+
+    @GetMapping("/{id}")
+    public Mono<Taco> getTacoById(@PathVariable("id") Long id) {
+        return tacoRepo.findById(id);
+    }
+
+    @PostMapping
+    public Mono<Taco> addTaco(@RequestBody Mono<Taco> taco) {
+        return tacoRepo.saveAll(taco).next();
     }
 
 }
