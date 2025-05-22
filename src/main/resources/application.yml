@@ -1,6 +1,11 @@
 spring:
   application:
     name: taco-cloud
+  rsocket:
+    server:
+      port: 7000
+      transport: websocket
+      mapping-path: /rsocket
   thymeleaf:
     cache: false
   datasource:
@@ -26,5 +31,7 @@ spring:
             clientId: <facebook client id>
             clientSecret: <facebook client secret>
             scope: email, public_profile
+
+
 
 
