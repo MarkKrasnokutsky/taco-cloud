@@ -1,26 +1,19 @@
 package com.mark.taco_cloud.domain.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 
 @Data
+@NoArgsConstructor
 @RequiredArgsConstructor
-@NoArgsConstructor(force = true)
-@Entity
+@EqualsAndHashCode(exclude = "id")
 public class Ingredient {
-
     @Id
-    private final String id;
-    private final String name;
-    @Enumerated(EnumType.STRING)
-    private final Type type;
-
+    private Long id;
+    private @NonNull String slug;
+    private @NonNull String name;
+    private @NonNull Type type;
     public enum Type {
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
     }
